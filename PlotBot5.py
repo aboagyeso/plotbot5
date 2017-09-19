@@ -26,7 +26,7 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 myUsrDtls = api.me()
-myScreenName = myUsrDtls.screen_name
+myScreenName = "@" + myUsrDtls.screen_name
 
 # Create function to get tweets requesting for analysis
 # returns a list of lists with eahc tweet specific tweetId, requestedUser, targetedUser
@@ -42,7 +42,7 @@ def getTargettedTweets(sinceId_lcl):
             twtText = tweetInfo["text"]
             if sinceId_gbl == sinceId_lcl:
                 sinceId_gbl = tweetInfo["id"]
-            if re.findall(r'^@'+myScreenName+r' Analyse.* @.*',twtText):
+            if (myScreenName in twtText) and ("Analyse" in twtText):
                 userInfo = []
                 sinceId = tweetInfo["id"]
                 twted_user = "@"+tweetInfo['user']['screen_name']
@@ -99,5 +99,5 @@ while(True):
             analysedList.append(twtToAnalyse)
             analyseUserTweets(trgt_twt)
             
-    api.update_status("Next sentiment analysis will be performed after 5 minutes")
+    api.update_status("Next sentiment analysis will be performed at- ", (datetime.datetime.now() + datetime.timedelta(minutes = 5)).strftime('%m-%d-%y %H:%M:%S'))
     time.sleep(300)
