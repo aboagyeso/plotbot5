@@ -5,7 +5,10 @@ import tweepy, time, json
 import pandas as pd
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
-import datetime, re, os
+import datetime, re, os, pytz
+
+# Setting timezone to EST
+timezone = pytz.timezone("US/Eastern")
 
 # Create sentiment analyser object
 analyzer = SentimentIntensityAnalyzer()
@@ -99,5 +102,5 @@ while(True):
             analysedList.append(twtToAnalyse)
             analyseUserTweets(trgt_twt)
             
-    api.update_status("Next sentiment analysis will be performed at- " + (datetime.datetime.now() + datetime.timedelta(minutes = 5)).strftime('%m-%d-%y %H:%M:%S'))
-    time.sleep(300)
+    api.update_status("Next sentiment analysis will be performed at- " + (datetime.datetime.now().replace(tzinfo=pytz.utc).astimezone(timezone) + datetime.timedelta(minutes = 1)).strftime('%m-%d-%y %H:%M:%S') + " EST.")
+    time.sleep(60)
