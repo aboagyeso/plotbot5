@@ -99,5 +99,5 @@ while(True):
             analysedList.append(twtToAnalyse)
             analyseUserTweets(trgt_twt)
             
-    api.update_status("Next sentiment analysis will be performed at- ", (datetime.datetime.now() + datetime.timedelta(minutes = 5)).strftime('%m-%d-%y %H:%M:%S'))
+    api.update_status("Next sentiment analysis will be performed at- " + (datetime.datetime.now() + datetime.timedelta(minutes = 5)).strftime('%m-%d-%y %H:%M:%S'))
     time.sleep(300)
