@@ -59,7 +59,7 @@ def analyseUserTweets(trgtUsrInfo):
     compound_list, twtsAgo_list, screenName_list = [], [], []
     tweetsAgo = 0
 
-    for page in tweepy.Cursor(api.user_timeline, id=trgtUsrInfo[2], wait_on_rate_limit=True, wait_on_rate_limit_notify=True).pages(5):
+    for page in tweepy.Cursor(api.user_timeline, id=trgtUsrInfo[2], wait_on_rate_limit=True, wait_on_rate_limit_notify=True).pages(25):
         for tweet in page:
             tweetInfo = json.dumps(tweet._json, indent=3)
             tweetInfo = json.loads(tweetInfo)
