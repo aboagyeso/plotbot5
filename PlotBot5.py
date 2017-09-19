@@ -102,5 +102,5 @@ while(True):
             analysedList.append(twtToAnalyse)
             analyseUserTweets(trgt_twt)
             
-    api.update_status("Next sentiment analysis will be performed at- " + (datetime.datetime.now().replace(tzinfo=pytz.utc).astimezone(timezone) + datetime.timedelta(minutes = 1)).strftime('%m-%d-%y %H:%M:%S') + " EST.")
-    time.sleep(60)
+    api.update_status("Next sentiment analysis will be performed at- " + (datetime.datetime.now().replace(tzinfo=pytz.utc).astimezone(timezone) + datetime.timedelta(minutes = 2)).strftime('%m-%d-%y %H:%M:%S') + " EST.")
+    time.sleep(120)
