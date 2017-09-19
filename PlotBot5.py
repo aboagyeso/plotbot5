@@ -1,4 +1,6 @@
 # Dependencies
+import matplotlib
+matplotlib.use('Agg')
 import tweepy, time, json
 import pandas as pd
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
