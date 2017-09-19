@@ -45,7 +45,7 @@ def getTargettedTweets(sinceId_lcl):
             twtText = tweetInfo["text"]
             if sinceId_gbl == sinceId_lcl:
                 sinceId_gbl = tweetInfo["id"]
-            if (myScreenName in twtText) and ("Analyse" in twtText):
+            if (myScreenName in twtText) and ("Analyze" in twtText):
                 userInfo = []
                 sinceId = tweetInfo["id"]
                 twted_user = "@"+tweetInfo['user']['screen_name']
