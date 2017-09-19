@@ -43,6 +43,8 @@ def getTargettedTweets(sinceId_lcl):
             tweetInfo = json.dumps(tweet._json, indent=3)
             tweetInfo = json.loads(tweetInfo)
             twtText = tweetInfo["text"]
+            if ("Analysed 5 latest requests. Next sentiment analysis at-" in twtText):
+                api.destroy_status(tweetInfo["id"])
             if sinceId_gbl == sinceId_lcl:
                 sinceId_gbl = tweetInfo["id"]
             if (myScreenName in twtText) and ("Analyse" in twtText):
