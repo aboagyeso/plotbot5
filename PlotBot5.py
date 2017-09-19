@@ -99,4 +99,4 @@ while(True):
             analysedList.append(twtToAnalyse)
             analyseUserTweets(trgt_twt)
 
-    time.sleep(3600)
+    time.sleep(60)
