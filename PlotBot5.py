@@ -54,6 +54,11 @@ def getTargettedTweets(sinceId_lcl):
                 userInfo.append(twted_user)
                 userInfo.append(trgted_user)
                 twtInfo_lst.append(userInfo)
+            if len(twtInfo_lst) == 10:
+                break
+        if len(twtInfo_lst) == 10:
+            break
+                
     return twtInfo_lst
 
 # Function to perform sentiment analysis of a specific user's latest 500 tweets
