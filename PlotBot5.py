@@ -98,6 +98,6 @@ while(True):
         else:
             analysedList.append(twtToAnalyse)
             analyseUserTweets(trgt_twt)
-            api.update_status("Next sentiment analysis will be performed after 5 minutes")
-
+            
+    api.update_status("Next sentiment analysis will be performed after 5 minutes")
     time.sleep(300)
