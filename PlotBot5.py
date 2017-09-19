@@ -54,9 +54,9 @@ def getTargettedTweets(sinceId_lcl):
                 userInfo.append(twted_user)
                 userInfo.append(trgted_user)
                 twtInfo_lst.append(userInfo)
-            if len(twtInfo_lst) == 10:
+            if len(twtInfo_lst) == 5:
                 break
-        if len(twtInfo_lst) == 10:
+        if len(twtInfo_lst) == 5:
             break
                 
     return twtInfo_lst
@@ -107,5 +107,5 @@ while(True):
             analysedList.append(twtToAnalyse)
             analyseUserTweets(trgt_twt)
             
-    api.update_status("Analysed 10 latest requests. Next sentiment analysis at- " + (datetime.datetime.now().replace(tzinfo=pytz.utc).astimezone(timezone) + datetime.timedelta(hours = 6)).strftime('%m-%d-%y %H:%M:%S') + " EST.")
+    api.update_status("Analysed 5 latest requests. Next sentiment analysis at- " + (datetime.datetime.now().replace(tzinfo=pytz.utc).astimezone(timezone) + datetime.timedelta(hours = 6)).strftime('%m-%d-%y %H:%M:%S') + " EST.")
     time.sleep(21600)
