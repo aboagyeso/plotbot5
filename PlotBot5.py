@@ -101,6 +101,7 @@ while(True):
 
     for trgt_twt in trgt_twts_lst:
         twtToAnalyse = trgt_twt[2] + "_" + dt1
+        time.sleep(5)
         if twtToAnalyse in analysedList:
 #             api.update_status(trgt_twt[1]+" We have already analysed tweet sentiments for user "+trgt_twt[2]+ " earlier today, hence skipping..", in_reply_to_status_id=trgt_twt[0])
             api.update_status(trgt_twt[1]+" We cannot analyse user "+trgt_twt[2]+ " now at- " +(datetime.datetime.now().replace(tzinfo=pytz.utc).astimezone(timezone)).strftime('%m-%d-%y %H:%M:%S')+" EST. Already analysed earlier today, hence skipping..", in_reply_to_status_id=trgt_twt[0])
