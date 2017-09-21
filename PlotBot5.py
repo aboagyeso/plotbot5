@@ -14,10 +14,18 @@ timezone = pytz.timezone("US/Eastern")
 analyzer = SentimentIntensityAnalyzer()
 
 # Variable assignment
-consumer_key = os.environ['twtconkey']
-consumer_secret = os.environ['twtconsec']
-access_token = os.environ['twtacctok']
-access_token_secret = os.environ['twtaccsec']
+consumer_key = "AVvw7Xi4iBDlv1f0Dn8wpfx1l"
+consumer_secret = "zWOUh1Pqtx2XPMD2I8Vh8tjr5ODYgNXzkUdHGzGtNKuswJcrmf"
+access_token = "907288079257481218-R9S7omQqGv6yDq0WDhlQcz4JaxC2YJ0"
+access_token_secret = "RhIv10Na7h9KdKCR9vZ2WAAwQnCeA7E4nb3x93kThChE0"
+# consumer_key = "xLJKs5cUwOiqhKg4eFAAY8Vp7"
+# consumer_secret = "8qX87WtHrcbL85FGDTdO3k6KPGDSkazE4Cp0RqT1Vkquc4MWpK"
+# access_token = "908923830437064704-dITgCWGWMMBJqGA7IBpRY3V4bbRTEgo"
+# access_token_secret = "PH2Rbwr7a3EBSVdKLocUmYSoxnYelE0Nt940q8jFznOOF"
+# consumer_key = os.environ['twtconkey']
+# consumer_secret = os.environ['twtconsec']
+# access_token = os.environ['twtacctok']
+# access_token_secret = os.environ['twtaccsec']
 
 dt = datetime.datetime.today().strftime('%m/%d/%y')
 mth = datetime.datetime.today().strftime('%m-%y')
@@ -31,6 +39,7 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 myUsrDtls = api.me()
 myScreenName = "@" + myUsrDtls.screen_name
+print(myScreenName)
 
 # Function to perform sentiment analysis of a specific user's latest 500 tweets 
 # & reply back to request tweet with the plot.
@@ -53,6 +62,7 @@ def analyzeUserTweets(trgtUsrInfo):
         
         # Create dataframe to plot the graph
         df = pd.DataFrame({'Tweets Ago':twtsAgo_list,'Compound Sentiments':compound_list,'ScreenName':screenName_list})
+        overallSentiment = df['Compound Sentiments'].mean()
 
         # Plot the graph, save it as an image and tweet it back onto the original tweet
         g = plt.plot(df['Tweets Ago'],df['Compound Sentiments'],marker='o',markersize=10)
@@ -60,11 +70,11 @@ def analyzeUserTweets(trgtUsrInfo):
         g.invert_xaxis()
         plt.xlabel('Tweets Ago')
         plt.ylabel('Tweet Polarity')
-        plt.title('Sentiment Analysis of Tweets ('+dt+')')
+        plt.title('Vedar Sentiment Analysis of latest 500 tweets ('+dt+')')
         plt.legend(title='Tweets',bbox_to_anchor=(1, 1), loc='upper left', ncol=1,labels='@'+df['ScreenName'])
         fileName = 'SentimentAnalysis_'+trgtUsrInfo[2][1:]+'.png'
         plt.savefig(fileName, bbox_inches='tight')
-        api.update_with_media(fileName, trgtUsrInfo[1]+" As per your request, see the tweet sentiments analysis for user: "+trgtUsrInfo[2], in_reply_to_status_id=trgtUsrInfo[0])
+        api.update_with_media(fileName, trgtUsrInfo[1]+" See the tweet sentiment analysis of "+trgtUsrInfo[2]+" you requested!\nOverall Sentiment: "+str(round(overallSentiment,2)), in_reply_to_status_id=trgtUsrInfo[0])
         plt.gcf().clear()
         os.remove(fileName)
         return True
@@ -82,7 +92,7 @@ def getLatestRequests():
     global pendingAnalysis_lst
 
     try:
-        for tweet in tweepy.Cursor(api.search, q=myScreenName, count=20, result_type="recent", include_entities=True, lang="en", wait_on_rate_limit=True, wait_on_rate_limit_notify=True).items():
+        for tweet in tweepy.Cursor(api.mentions_timeline, count=20, result_type="recent", include_entities=True, lang="en", wait_on_rate_limit=True, wait_on_rate_limit_notify=True).items():
             tweetInfo = json.dumps(tweet._json, indent=3)
             tweetInfo = json.loads(tweetInfo)
             twtText = tweetInfo["text"]
@@ -119,8 +129,10 @@ while(True):
                 isAnalyzed = False
         else:
             isAnalyzed = analyzeUserTweets(twtDtls)
-            if isAnalyzed:
-                analyzedAccts_lst.append(acctToAnalyze)
-                analyzedAccWithTime[acctToAnalyze] = (datetime.datetime.utcfromtimestamp(time.time()).replace(tzinfo=pytz.utc).astimezone(timezone)).strftime('%m-%d-%y')
-        del pendingAnalysis_lst[0]
+
+        if isAnalyzed:
+            analyzedAccts_lst.append(acctToAnalyze)
+            analyzedAccWithTime[acctToAnalyze] = (datetime.datetime.utcfromtimestamp(time.time()).replace(tzinfo=pytz.utc).astimezone(timezone)).strftime('%m-%d-%y')
+            del pendingAnalysis_lst[0]
+    print(pendingAnalysis_lst)
     time.sleep(300)
