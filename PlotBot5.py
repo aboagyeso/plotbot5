@@ -134,5 +134,5 @@ while(True):
             analyzedAccts_lst.append(acctToAnalyze)
             analyzedAccWithTime[acctToAnalyze] = (datetime.datetime.utcfromtimestamp(time.time()).replace(tzinfo=pytz.utc).astimezone(timezone)).strftime('%m-%d-%y')
             del pendingAnalysis_lst[0]
-    print(pendingAnalysis_lst)
+    
     time.sleep(300)
